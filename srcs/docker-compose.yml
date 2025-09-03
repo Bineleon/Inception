@@ -1,0 +1,46 @@
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_password
+    volumes:
+      - /home/${USER}/data/mariadb:/var/lib/mysql
+    command: ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql"]
+    networks:
+      - inception
+    
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    container_name: wordpress
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    secrets:
+      - db_password
+      - wp_admin_password
+    volumes:
+      - /home/${USER}/data/wordpress:/var/www/html
+    networks:
+      - inception
+
+networks:
+  inception:
+    driver: bridge
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  db_password:
+    file: ../secrets/db_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+
