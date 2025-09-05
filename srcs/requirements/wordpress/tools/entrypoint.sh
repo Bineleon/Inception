@@ -1,64 +1,51 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-### 🔐 file_env : charge une variable ou lit depuis un secret
-file_env() {
-  var="$1"
-  fileVar="${var}_FILE"
-  val="$(eval echo \$$var)"
-  fileVal="$(eval echo \$$fileVar)"
-  if [ -n "$val" ] && [ -n "$fileVal" ]; then
-    echo "Error: both $var and $fileVar are set" >&2
-    exit 1
-  fi
-  if [ -n "$fileVal" ]; then
-    export "$var"="$(< "$fileVal")"
-  fi
-}
+echo "Starting WordPress setup (entrypoint.sh)"
 
-### 🔐 Charger les variables nécessaires
-file_env MYSQL_USER
-file_env MYSQL_PASSWORD
-file_env MYSQL_DB
-file_env WP_ADMIN_USER
-file_env WP_ADMIN_PASSWORD
-file_env WP_ADMIN_EMAIL
-file_env WP_TITLE
-file_env DOMAIN_NAME
+WP_PATH="/var/www/wordpress"
+WP_CONFIG="$WP_PATH/wp-config.php"
 
-### ⏳ Attendre que MariaDB soit prêt
-until mysqladmin ping -h mariadb --silent; do
-  echo "Waiting for MariaDB..."
-  sleep 2
-done
+: "${MARIADB_DATABASE:?Missing MARIADB_DATABASE}"
+: "${MARIADB_USER:?Missing MARIADB_USER}"
+: "${WORDPRESS_DB_HOST:?Missing WORDPRESS_DB_HOST}"
+: "${WP_ADMIN_USER:?Missing WP_ADMIN_USER}"
+: "${WP_ADMIN_EMAIL:?Missing WP_ADMIN_EMAIL}"
+: "${WP_SITE_TITLE:?Missing WP_SITE_TITLE}"
+: "${WP_USER:?Missing WP_USER}"
 
-### 📂 Télécharger WordPress si nécessaire
-cd /var/www/html
+ROOT_PWD=$(cat /run/secrets/db_root_password)
+APP_PWD=$(cat /run/secrets/db_password)
+WP_ADMIN_PWD=$(cat /run/secrets/wp_admin_password)
+WP_USER_PWD=$(cat /run/secrets/wp_user_password)
 
-if [ ! -f wp-config.php ]; then
-  echo "Downloading WordPress..."
-  wp core download --allow-root
-
-  echo "Creating wp-config.php..."
-  wp config create \
-    --dbname="$MYSQL_DB" \
-    --dbuser="$MYSQL_USER" \
-    --dbpass="$MYSQL_PASSWORD" \
-    --dbhost="mariadb:3306" \
+if [ ! -f "$WP_CONFIG" ]; then
+  echo "[📦] Creating wp-config.php..."
+  wp config create --path="$WP_PATH" \
+    --dbname="$MARIADB_DATABASE" \
+    --dbuser="$MARIADB_USER" \
+    --dbpass="$APP_PWD" \
+    --dbhost="$WORDPRESS_DB_HOST" \
     --allow-root
 
-  echo "Installing WordPress..."
-  wp core install \
-    --url="$DOMAIN_NAME" \
-    --title="$WP_TITLE" \
+  echo "[⚙️] Installing WordPress..."
+  wp core install --path="$WP_PATH" \
+    --url="https://${DOMAIN_NAME}" \
+    --title="$WP_SITE_TITLE" \
     --admin_user="$WP_ADMIN_USER" \
-    --admin_password="$WP_ADMIN_PASSWORD" \
+    --admin_password="$WP_ADMIN_PWD" \
     --admin_email="$WP_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
+
+  echo "[👤] Creating secondary user..."
+  wp user create "$WP_USER" "user@example.com" \
+    --user_pass="$WP_USER_PWD" \
+    --role=subscriber \
+    --allow-root
 else
-  echo "WordPress already installed. Skipping setup."
+  echo "[ℹ️] WordPress is already installed. Skipping setup."
 fi
 
-### ✅ Lancer php-fpm
+echo "[🚀] Launching PHP-FPM..."
 exec php-fpm7.4 -F
