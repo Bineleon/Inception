@@ -1,0 +1,36 @@
+.container-resume {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the img vertically */
+  height: 100vh; /* Make the container fill the viewport height */
+  padding: 1rem; /* Add some padding around the img */
+  margin-top: 300px;
+  margin-bottom: 50px;
+}
+
+.resume {
+  width: 90%; /* Adjust the width percentage to your preference */
+  height: calc(90% * 1.4142); /* A4 aspect ratio (1.4142), adjust the percentage according to the width */
+  min-height: 600px; /* Set a minimum height for the img */
+  object-fit: contain; /* Make the img fit inside its container while maintaining its aspect ratio */
+}
+
+.resume img {
+  box-shadow:
+  7px 8px 0 0 black, /* inner border */
+  11px 12px 0px 0px white;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.over-hide {
+  overflow: hidden;
+}
+
+.full-height {
+  height: 100vh;
+}

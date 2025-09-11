@@ -1,0 +1,220 @@
+/* Media query pour les petis écrans */
+@media screen and (max-width: 400px) {
+  #memory-game {
+    grid-gap: 5px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .button {
+    font-size: 13px;
+    padding: 0.3rem 0.3rem;
+    margin: 9px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 2rem 0;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100%;
+    height: 125%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: white;
+    width: 80%;
+    max-width: 500px;
+    margin-top: 10rem;
+    padding: 2rem;
+    box-shadow:
+    7px 8px 0 0 black, /* inner border */
+    11px 12px 0px 0px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  #modal-description,
+  #modal-description2 {
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  #modal-description{
+    padding-bottom: 0;
+  }
+
+  #modal-description2 {
+    padding-bottom: 5px;
+  }
+
+  .close-container {
+    position: absolute;
+    cursor: pointer;
+    bottom: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .switch-wrap p {
+    background-color: white;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: black;
+    text-align: justify;
+    margin-top: 9px;
+    margin-left: 9%;
+    margin-right: 9%;
+    padding: 30px;
+    padding-left: 9%;
+    padding-right: 9%;
+    box-shadow: 5px 6px 0 0 black, 8px 9px 0px 0px white;
+  }
+
+  .switch-wrap {
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    z-index: 10;
+    transform: translateY(-50%);
+    width: 100%;
+    -webkit-transition: all 500ms linear;
+    transition: all 500ms linear;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+/* Media query pour les écrans moyens */
+@media screen and (min-width: 401px) and (max-width: 800px) {
+  #memory-game {
+    grid-gap: 10px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .button {
+    font-size: 16px;
+    padding: 10px;
+    margin: 5px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100%;
+    height: 125%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: white;
+    width: 60%;
+    max-width: 500px;
+    margin-top: 20rem;
+    margin-bottom: 10rem;
+    padding: 2rem;
+    box-shadow:
+    7px 8px 0 0 black, /* inner border */
+    11px 12px 0px 0px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+  }
+  #modal-description,
+  #modal-description2 {
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  #modal-description{
+    padding-bottom: 0;
+  }
+
+  #modal-description2 {
+    padding-bottom: 20px;
+  }
+
+  .switch-wrap p {
+    background-color: white;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: black;
+    text-align: justify;
+    margin-top: 9px;
+    margin-left: 9%;
+    margin-right: 9%;
+    padding: 30px;
+    padding-left: 9%;
+    padding-right: 9%;
+    box-shadow: 5px 6px 0 0 black, 8px 9px 0px 0px white;
+  }
+}
+
+/* Media query pour les grands écrans */
+@media screen and (min-width: 801px) {
+  #memory-game {
+    grid-gap: 15px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .button {
+    font-size: 18px;
+    padding: 12px;
+    margin: 7px;
+  }
+}

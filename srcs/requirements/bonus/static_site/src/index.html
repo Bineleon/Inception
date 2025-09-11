@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nelbi Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="media-queries.css">
+    <script src="https://kit.fontawesome.com/b37118db94.js" crossorigin="anonymous"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');</style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');</style>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <header id="navbar" class="cd-header">
+      <div class="header-wrapper">
+        <div class="logo-wrap">
+          <a href="https://www.linkedin.com/in/nelbi-leon/" class="hover-target" target="_blank"><span>NELBI</span>LEON</a>
+        </div>
+        <div class="nav-but-wrap">
+          <div class="menu-icon hover-target">
+            <span class="menu-icon__line menu-icon__line-left"></span>
+            <span class="menu-icon__line"></span>
+            <span class="menu-icon__line menu-icon__line-right"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="nav">
+      <div class="nav__content">
+        <ul class="nav__list">
+          <li class="nav__list-item" data-nav="home"><a href="/index.html" class="hover-target">home</a></li>
+          <li class="nav__list-item" data-nav="resume"><a href="/resume.html" class="hover-target">CV</a></li>
+          <li class="nav__list-item" data-nav="contact"><a href="/contact.html" class="hover-target">contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section full-height over-hide vertical-stack">
+      <div class="switch-wrap">
+        <a href="#memory-game"><h1>PLAY THE NELBI GAME</h1></a>
+      <p>Hey, bienvenue à bord du Nelbi Memory Game ! En tant que développeuse web, j'ai concocté cette petite aventure ludique pour vous dévoiler mes talents et hobbies. Plongez dans ce jeu de memory captivant (oui, oui captivant !) : trouvez les paires et hop, les infos se dévoilent !
+
+        Vous êtes pressé(e) ? Pas de panique ! Cliquez sur les boutons <a href="#buttons">ici</a> pour un accès éclair aux infos. Mais attention, si vous terminez le jeu, une carte bonus inédite vous attend ! Allez, venez vous amuser et n'hésitez pas à me contacter. À vous de jouer et bonne découverte !</p>
+      </div>
+    </div>
+
+    <div class='cursor' id="cursor"></div>
+    <div class='cursor2' id="cursor2"></div>
+    <div class='cursor3' id="cursor3"></div>
+
+    <!-- Game -->
+    <div class="container vertical-stack">
+      <div class="memory-game" id="memory-game">
+        <!-- Cartes ajoutées ici via JavaScript -->
+      </div>
+      <div class="buttons" id="buttons">
+        <!-- Boutons ajoutés ici via JavaScript -->
+      </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <img src="" alt="" id="modal-img" />
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <p id="modal-description2"></p>
+            <p class="close-container" id="close-btn"><i class="fa-solid fa-arrow-left"></i> Retour au Game</p>
+        </div>
+  </div>
+
+    <script src="memory-game.js"></script>
+    <script src="navbar.js"></script>
+  </body>
+</html>

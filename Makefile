@@ -3,16 +3,16 @@ COMPOSE = docker compose -f srcs/docker-compose.yml
 .PHONY: build up down logs clean fclean re
 
 build:
-	$(COMPOSE) build mariadb wordpress nginx
+	$(COMPOSE) build mariadb wordpress nginx static_site
 
 up:
-	$(COMPOSE) up -d mariadb wordpress nginx
+	$(COMPOSE) up -d mariadb wordpress nginx static_site
 
 down:
 	$(COMPOSE) down
 
 logs:
-	$(COMPOSE) logs -f mariadb wordpress nginx
+	$(COMPOSE) logs -f mariadb wordpress nginx static_site
 
 clean:
 	$(COMPOSE) down -v

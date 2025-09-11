@@ -80,23 +80,62 @@ services:
       - /home/neleon/data/wordpress:/var/www/wordpress
     networks:
       - inception
-  
+
+  static_site:
+    build:
+      context: ./requirements/bonus/static_site
+    image: static_site:user
+    container_name: static_site
+    restart: always
+    volumes:
+      - ./requirements/bonus/static_site/src:/usr/share/nginx/html:ro
+    expose:
+      - "80"
+    networks:
+      - inception
+
   nginx:
     build:
       context: ./requirements/nginx
     image: nginx:user
     container_name: nginx
     restart: always
-    depends_on:
-      - wordpress
-    env_file:
-      - .env
     ports:
       - "443:443"
     volumes:
+      - ./requirements/nginx/conf/default.conf:/etc/nginx/sites-enabled/default
+      - ./requirements/nginx/tools/entrypoint.sh:/usr/local/bin/entrypoint.sh
       - /home/neleon/data/wordpress:/var/www/wordpress
     networks:
       - inception
+
+  # nginx:
+  #   build:
+  #     context: ./requirements/nginx
+  #   image: nginx:user
+  #   container_name: nginx
+  #   restart: always
+  #   ports:
+  #     - "443:443"
+  #   volumes:
+  #   - ./requirements/nginx/conf/default.conf:/etc/nginx/sites-enabled/default
+  #   - ./requirements/nginx/tools/entrypoint.sh:/usr/local/bin/entrypoint.sh
+  #   networks:
+  #     - inception
+
+
+  # static_site:
+  #   build:
+  #     context: ./requirements/bonus/static_site
+  #   image: static_site:user
+  #   container_name: static_site
+  #   restart: always
+  #   ports:
+  #     - "444:443" 
+  #   volumes:
+  #     - ./requirements/bonus/static_site/src:/var/www/static_site
+  #   networks:
+  #     - inception
 
 secrets:
   db_root_password:
