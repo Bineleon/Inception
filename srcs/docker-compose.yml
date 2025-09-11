@@ -1,0 +1,113 @@
+# services:
+#   mariadb:
+#     build:
+#       context: ./requirements/mariadb
+#     container_name: mariadb
+#     restart: unless-stopped
+#     env_file:
+#       - .env
+#     secrets:
+#       - db_root_password
+#       - db_password
+#     volumes:
+#       - /home/${USER}/data/mariadb:/var/lib/mysql
+#     command: ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql"]
+#     networks:
+#       - inception
+    
+#   wordpress:
+#     build:
+#       context: ./requirements/wordpress
+#     container_name: wordpress
+#     restart: unless-stopped
+#     env_file:
+#       - .env
+#     depends_on:
+#       - mariadb
+#     secrets:
+#       - db_password
+#       - wp_admin_password
+#     volumes:
+#       - /home/${USER}/data/wordpress:/var/www/html
+#     networks:
+#       - inception
+
+# networks:
+#   inception:
+#     driver: bridge
+
+# secrets:
+#   db_root_password:
+#     file: ../secrets/db_root_password.txt
+#   db_password:
+#     file: ../secrets/db_password.txt
+#   wp_admin_password:
+#     file: ../secrets/wp_admin_password.txt
+
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb:user
+    container_name: mariadb
+    restart: always
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_password
+    volumes:
+      - /home/neleon/data/mariadb:/var/lib/mysql
+    networks:
+      - inception
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress:user
+    container_name: wordpress
+    restart: always
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_password
+      - wp_admin_password
+      - wp_user_password
+    volumes:
+      - /home/neleon/data/wordpress:/var/www/wordpress
+    networks:
+      - inception
+  
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image: nginx:user
+    container_name: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+    volumes:
+      - /home/neleon/data/wordpress:/var/www/wordpress
+    networks:
+      - inception
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  db_password:
+    file: ../secrets/db_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  wp_user_password:
+    file: ../secrets/wp_user_password.txt
+
+networks:
+  inception:
+    driver: bridge
