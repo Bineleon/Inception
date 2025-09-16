@@ -2,12 +2,6 @@ FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# RUN apt-get update \
-#  && apt-get install -y --no-install-recommends \
-#     php php-fpm php-mysql php-cli php-curl php-mbstring php-xml php-zip \
-#     curl less mariadb-client ca-certificates tzdata \
-#  && rm -rf /var/lib/apt/lists/*
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     php php-fpm php-mysql php-cli \
     php-curl php-mbstring php-xml php-zip \
