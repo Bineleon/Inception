@@ -19,6 +19,4 @@ RUN chown root:root /usr/local/bin/entrypoint.sh \
 ENV MARIADB_DATA_DIR=/var/lib/mysql \
     MARIADB_SOCKET=/run/mysqld/mysqld.sock
 
-EXPOSE 3306
-
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
