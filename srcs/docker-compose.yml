@@ -1,49 +1,3 @@
-# services:
-#   mariadb:
-#     build:
-#       context: ./requirements/mariadb
-#     container_name: mariadb
-#     restart: unless-stopped
-#     env_file:
-#       - .env
-#     secrets:
-#       - db_root_password
-#       - db_password
-#     volumes:
-#       - /home/${USER}/data/mariadb:/var/lib/mysql
-#     command: ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql"]
-#     networks:
-#       - inception
-    
-#   wordpress:
-#     build:
-#       context: ./requirements/wordpress
-#     container_name: wordpress
-#     restart: unless-stopped
-#     env_file:
-#       - .env
-#     depends_on:
-#       - mariadb
-#     secrets:
-#       - db_password
-#       - wp_admin_password
-#     volumes:
-#       - /home/${USER}/data/wordpress:/var/www/html
-#     networks:
-#       - inception
-
-# networks:
-#   inception:
-#     driver: bridge
-
-# secrets:
-#   db_root_password:
-#     file: ../secrets/db_root_password.txt
-#   db_password:
-#     file: ../secrets/db_password.txt
-#   wp_admin_password:
-#     file: ../secrets/wp_admin_password.txt
-
 services:
   mariadb:
     build:
@@ -97,6 +51,8 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
+    env_file:
+      - .env
     image: nginx:user
     container_name: nginx
     restart: always
@@ -108,34 +64,6 @@ services:
       - /home/neleon/data/wordpress:/var/www/wordpress
     networks:
       - inception
-
-  # nginx:
-  #   build:
-  #     context: ./requirements/nginx
-  #   image: nginx:user
-  #   container_name: nginx
-  #   restart: always
-  #   ports:
-  #     - "443:443"
-  #   volumes:
-  #   - ./requirements/nginx/conf/default.conf:/etc/nginx/sites-enabled/default
-  #   - ./requirements/nginx/tools/entrypoint.sh:/usr/local/bin/entrypoint.sh
-  #   networks:
-  #     - inception
-
-
-  # static_site:
-  #   build:
-  #     context: ./requirements/bonus/static_site
-  #   image: static_site:user
-  #   container_name: static_site
-  #   restart: always
-  #   ports:
-  #     - "444:443" 
-  #   volumes:
-  #     - ./requirements/bonus/static_site/src:/var/www/static_site
-  #   networks:
-  #     - inception
 
 secrets:
   db_root_password:
