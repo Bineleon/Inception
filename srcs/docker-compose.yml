@@ -1,7 +1,6 @@
 services:
   mariadb:
-    build:
-      context: ./requirements/mariadb
+    build: ./requirements/mariadb
     image: mariadb:user
     container_name: mariadb
     restart: always
@@ -11,13 +10,12 @@ services:
       - db_root_password
       - db_password
     volumes:
-      - /home/neleon/data/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
 
   wordpress:
-    build:
-      context: ./requirements/wordpress
+    build: ./requirements/wordpress
     image: wordpress:user
     container_name: wordpress
     restart: always
@@ -31,13 +29,12 @@ services:
       - wp_admin_password
       - wp_user_password
     volumes:
-      - /home/neleon/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
 
   static_site:
-    build:
-      context: ./requirements/bonus/static_site
+    build: ./requirements/bonus/static_site
     image: static_site:user
     container_name: static_site
     restart: always
@@ -49,8 +46,7 @@ services:
       - inception
 
   nginx:
-    build:
-      context: ./requirements/nginx
+    build: ./requirements/nginx
     env_file:
       - .env
     image: nginx:user
@@ -59,11 +55,36 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf/default.conf:/etc/nginx/sites-enabled/default
-      - ./requirements/nginx/tools/entrypoint.sh:/usr/local/bin/entrypoint.sh
-      - /home/neleon/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    image: adminer:user
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/neleon/data/mariadb
+      o: bind
+
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/neleon/data/wordpress
+      o: bind
 
 secrets:
   db_root_password:
@@ -77,4 +98,4 @@ secrets:
 
 networks:
   inception:
-    driver: bridge
+    name: inception
