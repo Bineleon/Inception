@@ -1,5 +1,5 @@
-# srcs/.env
-# secrets/
+srcs/.env
+secrets/
 *.pem
 *.crt
 *.key

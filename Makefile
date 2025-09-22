@@ -1,12 +1,14 @@
 COMPOSE = docker compose -f srcs/docker-compose.yml
 
-.PHONY: build up down logs clean fclean re
+.PHONY: all build up down logs clean fclean re
 
 build:
 	$(COMPOSE) build mariadb wordpress nginx static_site adminer
 
 up:
 	$(COMPOSE) up -d mariadb wordpress nginx static_site adminer
+
+all: build up
 
 down:
 	$(COMPOSE) down
