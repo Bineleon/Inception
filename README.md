@@ -233,7 +233,7 @@ This project intentionally uses **`debian:bookworm-slim`** for all images and ke
 
 ## 42 Subject Compliance Notes
 
-- No prebuilt WordPress or MariaDB images – all images are **built from `debian:bookworm-slim`**.
+- No prebuilt WordPress or MariaDB images, all images are **built from `debian:bookworm-slim`**.
 - TLS via **nginx** on **port 443 only**.
 - Data persistence via **local volumes**.
 - Credentials handled via **Docker secrets**.
