@@ -82,10 +82,10 @@ WP_USER=user42
 Create the four files below (already present in this repo under `secrets/`; change the contents for your setup):
 
 ```
-secrets/db_root_password.txt     # e.g. "my_root_pwd"
-secrets/db_password.txt          # e.g. "my_wp_db_pwd"
-secrets/wp_admin_password.txt    # e.g. "my_admin_pwd"
-secrets/wp_user_password.txt     # e.g. "my_user_pwd"
+secrets/db_root_password.txt     # e.g. "db_root_pwd"
+secrets/db_password.txt          # e.g. "db_wp_db_pwd"
+secrets/wp_admin_password.txt    # e.g. "wp_admin_pwd"
+secrets/wp_user_password.txt     # e.g. "wp_user_pwd"
 ```
 
 The compose file mounts these as **Docker secrets**, read at runtime by entrypoints:
